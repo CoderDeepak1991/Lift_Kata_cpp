@@ -1,0 +1,19 @@
+INITIAL POSITION:
+  1    *      1
+  0    ]A[    0
+
+tick()
+
+  1    *      1
+  0    [A]    0
+
+tick()
+
+  1   [*A]    1
+  0           0
+
+tick()
+
+  1    ]A[    1
+  0           0
+
