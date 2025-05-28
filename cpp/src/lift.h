@@ -1,27 +1,23 @@
-#ifndef CPP_LIFT_H
-#define CPP_LIFT_H
+#ifndef LIFT_HPP
+#define LIFT_HPP
 
 #include <string>
-#include <utility>
 #include <vector>
 #include <set>
+#include <utility>
 
+// Represents a call made to a floor in a particular direction
 class Call {
 public:
-    bool operator<(const Call &rhs) const { // Needed for std::inserter()
-        if (floor < rhs.floor)
-            return true;
-        if (rhs.floor < floor)
-            return false;
-        return direction < rhs.direction;
-    }
+    enum Direction { Up, Down };
 
     int floor;
-    enum Direction {
-        Up, Down
-    } direction;
+    Direction direction;
 
-    Call(int floor, Direction direction) : floor(floor), direction(direction) {}
+    Call(int floor, Direction direction);
+
+    // For use in std::set (sorting)
+    bool operator<(const Call& rhs) const;
 };
 
 class LiftSystem;
@@ -32,12 +28,18 @@ private:
     int _floor;
     bool _doors_open;
     std::set<int> _requested_floors;
-public:
-    Lift(std::string id, int floor, bool doors_open, std::set<int> requested_floors)
-            : _id(std::move(id)), _floor(floor), _doors_open(doors_open),
-              _requested_floors(std::move(requested_floors)) {}
 
-    friend std::string print_lifts(const LiftSystem &system);
+public:
+    enum MoveDirection { Idle, MovingUp, MovingDown };
+    MoveDirection _move_direction;
+    // Lift(std::string id, int floor, bool doors_open, std::set<int> requested_floors);
+    Lift(std::string id, int floor, bool doors_open, std::set<int> requested_floors)
+    : _id(std::move(id)), _floor(floor), _doors_open(doors_open),
+      _requested_floors(std::move(requested_floors)),
+      _move_direction(Idle) {}
+
+    friend std::string print_lifts(const LiftSystem& system);
+    friend class LiftSystem;
 };
 
 class LiftSystem {
@@ -45,37 +47,22 @@ private:
     std::vector<Lift> _lifts;
     std::vector<int> _floors;
     std::vector<Call> _calls;
+
 public:
-    LiftSystem(std::vector<Lift> lifts,
-               std::vector<int> floors,
-               std::vector<Call> calls) :
-            _lifts(std::move(lifts)),
-            _floors(std::move(floors)),
-            _calls(std::move(calls)) {}
+    LiftSystem(std::vector<Lift> lifts, std::vector<int> floors, std::vector<Call> calls);
 
-    void tick() {
-        // TODO For the user to implement
-    }
+    void tick(); // To be implemented
 
-    const std::vector<Lift> &getLifts() const {
-        return _lifts;
-    }
+    const std::vector<Lift>& getLifts() const;
+    std::vector<Lift>& getLifts();
 
-    std::vector<Lift> &getLifts() {
-        return _lifts;
-    }
+    const std::vector<Call>& getCalls() const;
+    std::vector<Call>& getCalls();
 
-    const std::vector<Call> &getCalls() const {
-        return _calls;
-    }
-
-    std::vector<Call> &getCalls() {
-        return _calls;
-    }
-
-    friend std::string print_lifts(const LiftSystem &system);
+    friend std::string print_lifts(const LiftSystem& system);
 };
 
-std::string print_lifts(const LiftSystem &system);
+std::string print_lifts(const LiftSystem& system);
 
-#endif //CPP_LIFT_H
+#endif // LIFT_HPP
+

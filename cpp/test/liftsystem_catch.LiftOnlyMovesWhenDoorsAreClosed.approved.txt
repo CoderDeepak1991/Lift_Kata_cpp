@@ -1,0 +1,16 @@
+*** Initial State ****
+  1       *      1
+  0       ]A[    0
+
+**** After 1 Tick (doors close) ****
+  1       *      1
+  0       [A]    0
+
+**** After 2 Ticks (lift moves) ****
+  1      [*A]    1
+  0              0
+
+**** After 3 Ticks (doors open at target) ****
+  1       ]A[    1
+  0              0
+
