@@ -1,0 +1,39 @@
+{
+  "name": "emilybache/lift-kata",
+  "description": "Lift Kata - PHP version",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Lift\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "myclabs/php-enum": "^1.7",
+    "php-ds/php-ds": "^1.2"
+  },
+  "require-dev": {
+    "approvals/approval-tests": "dev-Main",
+    "phpunit/phpunit": "^9.5",
+    "phpstan/phpstan": "^1.9",
+    "phpstan/phpstan-phpunit": "^1.3",
+    "symplify/easy-coding-standard": "^11.1",
+    "symplify/phpstan-extensions": "^11.1"
+  },
+  "suggest": {
+    "ext-ds": "*"
+  },
+  "scripts": {
+    "test": "phpunit",
+    "tests": "phpunit",
+    "test-coverage": "phpunit --coverage-html build/coverage",
+    "check-cs": "ecs check",
+    "fix-cs": "ecs check --fix",
+    "phpstan": "phpstan analyse --ansi"
+  }
+}
